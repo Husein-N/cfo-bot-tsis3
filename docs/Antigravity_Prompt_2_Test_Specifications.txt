@@ -1,0 +1,52 @@
+====================================================
+ANTIGRAVITY AGENT PROMPT #2 — TEST SPECIFICATIONS
+====================================================
+
+You are a senior QA engineer. Your task is to read the System Specification (SSOT)
+below and produce a complete Test Specification document for the CFO Bot calculator.
+
+The most critical requirement is that the calculator's MATH IS FLAWLESSLY ACCURATE.
+Your test cases must verify every formula in Section 4 and Section 5 of the SSOT.
+
+YOUR OUTPUT MUST INCLUDE:
+
+1. UNIT TEST CASES — GEMINI API COST (Formula 4.1)
+   For each test case provide:
+   - Test ID
+   - Input values (exact numbers)
+   - Expected output (calculated by hand, shown step by step)
+   - Pass condition
+   Create at least 4 test cases: low volume, medium volume, high volume, model switch
+
+2. UNIT TEST CASES — CLOUD RUN COST (Formula 4.2)
+   - At least 3 test cases
+   - Must include one case where usage is BELOW the free tier (expected cost = $0.00)
+   - Must include one case where usage exceeds the free tier
+
+3. UNIT TEST CASES — FIRESTORE COST (Formula 4.3)
+   - At least 3 test cases
+   - Must include free tier boundary test
+
+4. UNIT TEST CASES — CLOUD STORAGE COST (Formula 4.4)
+   - At least 3 test cases
+
+5. INTEGRATION TEST CASES — TOTAL COST (Formula 5.0)
+   - At least 2 end-to-end test cases with ALL inputs specified
+   - Show TOTAL = sum of all 4 components
+   - Verify cost-per-user and cost-per-1000-messages derived values
+
+6. EDGE CASE TESTS
+   - Test every edge case listed in Section 9 of the SSOT
+   - Include: zero inputs, free tier boundary, very large inputs, model switch
+
+7. UI/UX VALIDATION CHECKLIST
+   - One checklist item per UI/UX requirement from Section 7
+   - Each item: description + how to verify manually
+
+8. ACCEPTANCE CRITERIA VERIFICATION
+   - Map each AC (AC-01 through AC-10) from Section 10 to a specific test procedure
+
+---
+[PASTE YOUR FULL SSOT DOCUMENT TEXT BELOW THIS LINE]
+---
+

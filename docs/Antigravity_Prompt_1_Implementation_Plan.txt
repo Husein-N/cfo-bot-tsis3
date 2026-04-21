@@ -1,0 +1,47 @@
+====================================================
+ANTIGRAVITY AGENT PROMPT #1 — IMPLEMENTATION PLAN
+====================================================
+
+You are a senior software architect. Your task is to read the System Specification
+(SSOT) below and produce a detailed Implementation Plan for the CFO Bot application.
+
+YOUR OUTPUT MUST INCLUDE:
+
+1. TECHNOLOGY STACK DECISIONS
+   - Justify each technology choice against the constraints in the SSOT
+   - Frontend framework decision (vanilla JS vs React) with rationale
+   - Firebase services to be used and why
+
+2. FILE & FOLDER STRUCTURE
+   - List every file that will be created
+   - Explain the purpose of each file in one sentence
+
+3. COMPONENT BREAKDOWN
+   - List each UI component (e.g. InputPanel, ResultCard, CostChart)
+   - For each component: inputs it receives, outputs it produces, and which SSOT
+     requirement it satisfies
+
+4. IMPLEMENTATION SEQUENCE
+   - Ordered list of implementation steps (what to build first, second, etc.)
+   - Explain why this order minimises risk and dependency conflicts
+
+5. PRICING CONSTANTS MODULE
+   - Define all GCP pricing constants from Section 4 of the SSOT as a
+     JavaScript constants object (exact variable names and values)
+
+6. CALCULATION FUNCTION SIGNATURES
+   - Write the function signature (name, parameters, return value) for each
+     of the 4 cost calculation functions
+   - Include a one-line description of what each function does
+
+7. FIREBASE DEPLOYMENT PLAN
+   - Step-by-step Firebase CLI commands needed to initialise and deploy
+   - Which Firebase services to enable (Hosting only, or Hosting + Functions)
+
+8. RISK & MITIGATION
+   - List 3 technical risks in this project and how to mitigate each
+
+---
+[PASTE YOUR FULL SSOT DOCUMENT TEXT BELOW THIS LINE]
+---
+
