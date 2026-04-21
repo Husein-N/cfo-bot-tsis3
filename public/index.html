@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CFO Bot — Cloud Cost Estimator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="8" fill="#1a73e8"/>
+            <path d="M7 14h4l2-5 3 10 2-7 2 4 1-2h4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-name">CFO Bot</div>
+          <div class="brand-sub">Monthly Cloud Cost Estimator for AI Chat Applications</div>
+        </div>
+      </div>
+      <div class="header-badges">
+        <span class="badge badge-gcp">Google Cloud</span>
+        <span class="badge badge-firebase">Firebase</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <main class="app-layout">
+
+    <!-- LEFT PANEL — INPUTS -->
+    <aside class="panel panel-inputs">
+
+      <div class="panel-header">
+        <span class="panel-title">Usage Parameters</span>
+        <button class="btn-reset" id="btn-reset" title="Reset to defaults">↺ Reset</button>
+      </div>
+
+      <!-- GROUP 1: USAGE -->
+      <div class="input-group">
+        <div class="group-label">
+          <span class="group-dot dot-blue"></span>Usage
+        </div>
+
+        <div class="field">
+          <label for="dailyMessages">Messages per day</label>
+          <div class="input-wrap">
+            <input type="number" id="dailyMessages" min="1" max="10000000" step="1" value="1000"/>
+            <span class="unit">msg/day</span>
+          </div>
+          <span class="field-error" id="err-dailyMessages"></span>
+        </div>
+
+        <div class="field">
+          <label for="monthlyActiveUsers">Monthly active users</label>
+          <div class="input-wrap">
+            <input type="number" id="monthlyActiveUsers" min="1" max="1000000" step="1" value="500"/>
+            <span class="unit">users</span>
+          </div>
+          <span class="field-error" id="err-monthlyActiveUsers"></span>
+        </div>
+      </div>
+
+      <!-- GROUP 2: AI MODEL -->
+      <div class="input-group">
+        <div class="group-label">
+          <span class="group-dot dot-purple"></span>AI Model
+        </div>
+
+        <div class="field">
+          <label>Model tier</label>
+          <div class="model-toggle">
+            <button class="model-btn active" data-model="flash" id="btn-flash">
+              <span class="model-name">Gemini 1.5 Flash</span>
+              <span class="model-price">$0.075 / 1M in</span>
+            </button>
+            <button class="model-btn" data-model="pro" id="btn-pro">
+              <span class="model-name">Gemini 1.5 Pro</span>
+              <span class="model-price">$3.50 / 1M in</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="avgInputTokens">Avg. input tokens / message</label>
+          <div class="input-wrap">
+            <input type="number" id="avgInputTokens" min="100" max="10000" step="50" value="500"/>
+            <span class="unit">tokens</span>
+          </div>
+          <span class="field-error" id="err-avgInputTokens"></span>
+        </div>
+
+        <div class="field">
+          <label for="avgOutputTokens">Avg. output tokens / message</label>
+          <div class="input-wrap">
+            <input type="number" id="avgOutputTokens" min="50" max="4000" step="50" value="300"/>
+            <span class="unit">tokens</span>
+          </div>
+          <span class="field-error" id="err-avgOutputTokens"></span>
+        </div>
+
+        <div class="field">
+          <label for="avgRequestDurationSec">Avg. request duration</label>
+          <div class="input-wrap">
+            <input type="number" id="avgRequestDurationSec" min="0.1" max="60" step="0.1" value="2.0"/>
+            <span class="unit">seconds</span>
+          </div>
+          <span class="field-error" id="err-avgRequestDurationSec"></span>
+        </div>
+      </div>
+
+      <!-- GROUP 3: STORAGE -->
+      <div class="input-group">
+        <div class="group-label">
+          <span class="group-dot dot-green"></span>Storage
+        </div>
+
+        <div class="field">
+          <label for="firestoreStorageGib">Firestore data stored</label>
+          <div class="input-wrap">
+            <input type="number" id="firestoreStorageGib" min="0" max="10000" step="0.1" value="1.0"/>
+            <span class="unit">GiB</span>
+          </div>
+          <span class="field-error" id="err-firestoreStorageGib"></span>
+        </div>
+
+        <div class="field">
+          <label for="gcsStorageGib">File storage (GCS)</label>
+          <div class="input-wrap">
+            <input type="number" id="gcsStorageGib" min="0" max="100000" step="1" value="10"/>
+            <span class="unit">GiB</span>
+          </div>
+          <span class="field-error" id="err-gcsStorageGib"></span>
+        </div>
+
+        <div class="field">
+          <label for="gcsEgressGib">Monthly outbound data</label>
+          <div class="input-wrap">
+            <input type="number" id="gcsEgressGib" min="0" max="100000" step="0.5" value="5.0"/>
+            <span class="unit">GiB</span>
+          </div>
+          <span class="field-error" id="err-gcsEgressGib"></span>
+        </div>
+
+        <div class="field">
+          <label for="monthlyUploads">File uploads / month</label>
+          <div class="input-wrap">
+            <input type="number" id="monthlyUploads" min="0" max="10000000" step="100" value="1000"/>
+            <span class="unit">ops</span>
+          </div>
+          <span class="field-error" id="err-monthlyUploads"></span>
+        </div>
+
+        <div class="field">
+          <label for="monthlyDownloads">File downloads / month</label>
+          <div class="input-wrap">
+            <input type="number" id="monthlyDownloads" min="0" max="10000000" step="100" value="5000"/>
+            <span class="unit">ops</span>
+          </div>
+          <span class="field-error" id="err-monthlyDownloads"></span>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- RIGHT PANEL — RESULTS -->
+    <section class="panel panel-results">
+
+      <!-- TOTAL COST HERO -->
+      <div class="total-hero">
+        <div class="total-label">Estimated Monthly Cost</div>
+        <div class="total-amount" id="total-amount">$0.00</div>
+        <div class="unit-economics">
+          <div class="unit-stat">
+            <div class="unit-val" id="cost-per-user">$0.00</div>
+            <div class="unit-lbl">per user / month</div>
+          </div>
+          <div class="unit-divider"></div>
+          <div class="unit-stat">
+            <div class="unit-val" id="cost-per-1k">$0.00</div>
+            <div class="unit-lbl">per 1,000 messages</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COST BREAKDOWN BAR CHART -->
+      <div class="chart-section">
+        <div class="section-title">Cost breakdown</div>
+        <div class="chart-bars" id="chart-bars">
+          <div class="chart-row" id="bar-gemini">
+            <div class="bar-label">
+              <span class="bar-dot dot-blue"></span>
+              <span>Gemini API</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill fill-blue" style="width:0%"></div>
+            </div>
+            <div class="bar-value">$0.00</div>
+          </div>
+          <div class="chart-row" id="bar-cloudrun">
+            <div class="bar-label">
+              <span class="bar-dot dot-teal"></span>
+              <span>Cloud Run</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill fill-teal" style="width:0%"></div>
+            </div>
+            <div class="bar-value">$0.00</div>
+          </div>
+          <div class="chart-row" id="bar-firestore">
+            <div class="bar-label">
+              <span class="bar-dot dot-orange"></span>
+              <span>Firestore</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill fill-orange" style="width:0%"></div>
+            </div>
+            <div class="bar-value">$0.00</div>
+          </div>
+          <div class="chart-row" id="bar-storage">
+            <div class="bar-label">
+              <span class="bar-dot dot-green"></span>
+              <span>Cloud Storage</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill fill-green" style="width:0%"></div>
+            </div>
+            <div class="bar-value">$0.00</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SERVICE CARDS -->
+      <div class="section-title" style="margin-top:24px">Itemised breakdown</div>
+      <div class="cards-grid">
+
+        <div class="service-card" id="card-gemini">
+          <div class="card-header">
+            <div class="card-icon icon-blue">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="card-service">Gemini API</div>
+            <div class="card-tag tag-ai">AI Model</div>
+          </div>
+          <div class="card-cost" id="cost-gemini">$0.00</div>
+          <div class="card-desc">Token-based billing · Input + Output</div>
+          <div class="card-model-badge" id="model-badge">Flash</div>
+        </div>
+
+        <div class="service-card" id="card-cloudrun">
+          <div class="card-header">
+            <div class="card-icon icon-teal">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="card-service">Cloud Run</div>
+            <div class="card-tag tag-compute">Compute</div>
+          </div>
+          <div class="card-cost" id="cost-cloudrun">$0.00</div>
+          <div class="card-desc">Requests · vCPU · Memory seconds</div>
+          <div class="free-tier-note" id="ft-cloudrun">2M req free/mo</div>
+        </div>
+
+        <div class="service-card" id="card-firestore">
+          <div class="card-header">
+            <div class="card-icon icon-orange">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="5" rx="9" ry="3" stroke="currentColor" stroke-width="2"/><path d="M21 12c0 1.66-4.03 3-9 3S3 13.66 3 12" stroke="currentColor" stroke-width="2"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <div class="card-service">Firestore</div>
+            <div class="card-tag tag-db">Database</div>
+          </div>
+          <div class="card-cost" id="cost-firestore">$0.00</div>
+          <div class="card-desc">Reads · Writes · Storage</div>
+          <div class="free-tier-note" id="ft-firestore">50k reads/day free</div>
+        </div>
+
+        <div class="service-card" id="card-storage">
+          <div class="card-header">
+            <div class="card-icon icon-green">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 002-2v-4M17 8l-5-5-5 5M12 3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="card-service">Cloud Storage</div>
+            <div class="card-tag tag-storage">Storage</div>
+          </div>
+          <div class="card-cost" id="cost-storage">$0.00</div>
+          <div class="card-desc">Files · Egress · Operations</div>
+          <div class="free-tier-note">5 GiB free</div>
+        </div>
+
+      </div>
+
+      <!-- FOOTER NOTE -->
+      <div class="results-footer">
+        Prices based on GCP published rates (2025 Q1). Estimates only — actual bills may vary.
+      </div>
+
+    </section>
+  </main>
+
+  <script src="constants.js"></script>
+  <script src="calculator.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
