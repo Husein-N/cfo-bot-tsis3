@@ -9,7 +9,7 @@ A single-page web application that estimates monthly **Google Cloud Platform (GC
 
 ## 🚀 Live Demo
 
-**[https://cfo-bot-tsis3.web.app](https://cfo-bot-tsis3.web.app)**
+**[https://cfo-bot-tsis3-59ba5.web.app](https://cfo-bot-tsis3-59ba5.web.app )**
 
 ---
 
